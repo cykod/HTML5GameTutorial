@@ -10,7 +10,6 @@ Without further ado, let's get going with a Quintus knock-off of game that start
 
 
 
-
 Pac Man is the first game that I remember playing, first in the arcade and then at home on the Atari as a wee tike, so let's start there.
 
 Game: Tower Man
@@ -19,8 +18,7 @@ Clone of: Pac Man
 
 First a moment of reflection on the Genre: what is a Pac Man type game? The answer is that it's a top-down action game. A player moves in fixed 2D board while enemies chase him in real-time.
 
-Our clone, Tower Man, will be different than Pac Man in a number of ways, but the main gameplay experience will be the same.
-
+Our clone, Tower Man, will be different than Pac Man in a number of ways, but the main gameplay experience will be the same. 
 
 
 
