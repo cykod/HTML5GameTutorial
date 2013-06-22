@@ -1,0 +1,5 @@
+name: HTML5 Game Development Tutorial
+markdown: redcarpet
+pygments: true
+safe: true
+lsi: false
