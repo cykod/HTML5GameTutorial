@@ -1,8 +1,6 @@
 ---
-layout: page
-title: 
-description: "A simple and clean responsive Jekyll theme for words and photos."
-tags: [Jekyll, theme, themes, responsive, blog, minimalism]
+layout: default
+title: HTML5 Game Development Tutorial
 ---
 
 When I put a simple 80 line platformer up on the [Quintus Website](http://html5quintus.com), I was aware that people would probably use that example as a starter for platformer games with the Quintus Engine. What I didn't realize is that people would **only** use that example and build pretty much nothing but platformers with the Engine.
@@ -13,9 +11,20 @@ This tutorial will assume some basic familiarity with Quintus - so if you haven'
 
 Additionally, the hope is that by playing with various pieces of the engines to build games in a gaggle of genres, you'll feel more comfortable with breaking out of specific genres of games and create the next indie world-beater.
 
+The links below will get filled in as each part of the tutorial is completed.
 
-<ul class="post-list">
-{% for post in site.posts limit:10 %} 
-  <li><article><a href="{{ site.url }}{{ post.url }}">{{ post.title }} <span class="entry-date"><time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%B %d, %Y" }}</time></span></a></article></li>
-{% endfor %}
-</ul>
+* [Game #1: Tower Man](game1_tower_man.html)
+* Game #2: Top-down Rogue RPG
+* Game #3: Side-scrolling shooter
+* Game #4: Endless Runner
+* Game #5: Spaceship shooter
+* Game #6: 3D Spaceship Shooter
+* Game #7: 2D Physics Roller
+* Game #8: 3D Physics Roller
+* Game #9: Artillery Shooter
+
+
+
+Without further ado, let's get going with a Quintus knock-off of the first game I ever remember playing: Pac Man.
+
+[Tower Man](game1_tower_man.html)
