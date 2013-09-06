@@ -6,9 +6,9 @@ title: Tower Man - Game 1 HTML5 Game Development Tutorial
 Tower Man
 =========
 
-Game: Tower Man
-Genre: Top-down action
-Clone of: Pac Man
+* Game: Tower Man
+* Genre: Top-down action
+* Clone of: Pac Man
 
 First a moment of reflection on the Genre: what is a Pac Man type game? The answer is that it's a top-down action game. A player moves in fixed 2D board while enemies chase him in real-time.
 
@@ -33,45 +33,48 @@ Step 1: Getting something on the screen
 
 The first step in any game is to get **something** onto the screen and work from there. We'll be starting with the standard minimal Quintus setup:
 
-    // 1. Wait for the onload even
-    window.addEventListener("load",function() {
 
-      // 2. Set up a basic Quintus object
-      //    with the necessary modules and controls
-      //    to make things easy, we're going to fix this game at 640x480
-      var Q = window.Q = Quintus({ development: true })
-              .include("Sprites, Scenes, Input, 2D")
-              .setup({ width: 640, height: 480 });
+```javascript
+// 1. Wait for the onload even
+window.addEventListener("load",function() {
 
-      // 3. Add in the default keyboard controls
-      //    along with joypad controls for touch
-      Q.input.keyboardControls();
-      Q.input.joypadControls();
+  // 2. Set up a basic Quintus object
+  //    with the necessary modules and controls
+  //    to make things easy, we're going to fix this game at 640x480
+  var Q = window.Q = Quintus({ development: true })
+          .include("Sprites, Scenes, Input, 2D")
+          .setup({ width: 640, height: 480 });
 
-      // 4. Add in a basic sprite to get started
-      Q.Sprite.extend("Player", {
-        init: function(p) {
+  // 3. Add in the default keyboard controls
+  //    along with joypad controls for touch
+  Q.input.keyboardControls();
+  Q.input.joypadControls();
 
-          this._super(p,{
-            sheet:"player"
-          });
+  // 4. Add in a basic sprite to get started
+  Q.Sprite.extend("Player", {
+    init: function(p) {
 
-          this.add("2d");
-        }
+      this._super(p,{
+        sheet:"player"
       });
 
-      // 5. Put together a minimal level
-      Q.scene("level1",function(stage) {
-        var player = stage.insert(new Q.Player({ x: 48, y: 48 }));
-      });
+      this.add("2d");
+    }
+  });
 
-      // 6. Load and start the level
-      Q.load("sprites.png, sprites.json, level.json", function() {
-        Q.compileSheets("sprites.png","sprites.json");
-        Q.stageScene("level1");
-      });
+  // 5. Put together a minimal level
+  Q.scene("level1",function(stage) {
+    var player = stage.insert(new Q.Player({ x: 48, y: 48 }));
+  });
 
-    });
+  // 6. Load and start the level
+  Q.load("sprites.png, sprites.json, level.json", function() {
+    Q.compileSheets("sprites.png","sprites.json");
+    Q.stageScene("level1");
+  });
+
+});
+```
 
 Next you'll need a minimal HTML file as well, this one should do:
 
