@@ -496,6 +496,6 @@ It still needs multiple levels, scoring, and towers that turn enemies to let tow
 
 Now's your turn to add these - you can [fork the code base above on Mod.it](https://mod.it/ufciftb5/dev)
 
-If you want to help the Quintus community you can also help by fixing any typos in the above tutorial or forking the repo and extending this tutorial to add in any of the above-mentioned features.
+If you want to help the Quintus community you can also help by fixing any typos in the above tutorial or [forking the repo](https://github.com/cykod/HTML5GameTutorial) and extending this tutorial to add in any of the above-mentioned features.
 
 
