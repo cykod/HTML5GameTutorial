@@ -754,3 +754,21 @@ span+.entry-title{margin-top:0;}
 }
 
 .example-repeat .icon-repeat { color:white;  }
+
+
+.found-typo-button {
+  position: fixed;
+  bottom: 20px;
+  right: 10px;
+}
+
+
+@media screen and (max-width: 800px){
+  
+  .found-typo-button {
+    position: relative;
+    bottom: 0;
+    right: 0;
+  }
+
+}

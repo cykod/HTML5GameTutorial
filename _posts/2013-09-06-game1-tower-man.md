@@ -101,16 +101,16 @@ Plop those suckers in a directory along with the contents of [tower\_man\_assets
 
 **Note:** generally all the examples need to be run from a server (http://) not a file (file://) url. The reason for this is that data assets are JSON files that are loaded Ajax, and browsers have sercurity restrictions when running from file:// urls (imagine you loaded an HTML file you downloaded and it immediately started uploading your whole computer to some hackers website? not ideal, hence the restriction.) 
 
-What's going on here? Well, we've got a single sprite added into the game that has a its sprite sheet set to "player". The sprite will use this to determine it's size (32x32) and the sprite to display.
+What's going on here? Well, we've got a single sprite added into the game that has its sprite sheet set to "player". The sprite will use this to determine its size (32x32) and the sprite to display.
 
-Next we add the `2d` component to the sprite - this adds in basic 2d collisions as well as some basic 2d kinetics (velocity and acceleration) By default the `2d` module sets a downward gravity in.
+Next we add the `2d` component to the sprite - this adds in basic 2d collisions as well as some basic 2d kinetics (velocity and acceleration) By default the `2d` module sets a downward gravity in, which in this case we don't want. So, onto step 2.
 
 Step 2: Getting rid of gravity
 =====================
 
 Since this is a top-down game, gravity needs to get thrown out the window.
 
-To remove gravity, let's set gravityY to zero so our player doesn't fall. Add the following two lines below the var Q = .. line.
+To remove gravity, let's set `Q.gravityY` to zero so our player doesn't fall. Add the following two lines below the input lines shown below:
 
 
 ```javascript
@@ -124,7 +124,7 @@ Q.gravityX = 0;
 
 This will set the global gravity parameters for the game. Sprites also have a local gravity parameter - `p.gravityX` / `p.gravityY` that can be used to override global gravity. (Setting `Q.gravityX` to 0 isn't strictly necessary as it's already zero - but that way you can play around with it)
 
-Rerun the game and you should have a non-falling player. If you want to see the effects of gravity, go ahead and play around with those gravityX and gravityY properties.
+Rerun the game and you should have a non-falling player. If you want to see the effects of gravity, go ahead and play around with those `Q.gravityX` and `Q.gravityY` properties.
 
 
 Step 3: Getting some constants
@@ -152,7 +152,7 @@ Now we have separate masks for the player, the background tiles, the enemies and
 Step 4: Adding in a level
 =================
 
-A black background isn't going to cut it as a level - we're going to need to add in some sort of level. To do this we're going use the Q.TileLayer, but we're going to create a derived class that adds in sprites for the dots and towers so we don't need to add them in manually.
+A black background isn't going to cut it as a level - we're going to need to add in some sort of level. To do this we're going use the `Q.TileLayer`, but we're going to create a derived class that adds in sprites for the dots and towers so we don't need to add them in manually.
 
 We're going to cheat on the dots and towers - they'll actually be the same sprite, just with a different sprite sheet. 
 
@@ -208,9 +208,9 @@ Q.Dot.extend("Tower", {
 });
 ```
 
-Next wee need the actual level  class - we'll calls this `Q.TowerManMap` and it'll be a basic tile layer with a customer `setup()` function.
+Next we need the actual level class - we'll call this `Q.TowerManMap` and it'll be a basic tile layer with a customer `setup()` function.
 
-This setup function will create a copy of the tile data passed in and then modify it to add in towers and dots where appropriate.
+This setup function will create a copy of the tile data passed in and then modify it to add in towers and dots where appropriate, changing those tiles to be empty.
 
 We need to make sure that we use a copy of the tile data otherwise the next time the level is loaded, the data for the tiles (an array of arrays) will be changed.
 
@@ -244,6 +244,7 @@ Q.TileLayer.extend("TowerManMap",{
       for(var x =0;x<row.length;x++) {
         var tile = row[x];
 
+        // Replace 0's with dots and 2's with Towers
         if(tile == 0 || tile == 2) {
           var className = tile == 0 ? 'Dot' : 'Tower'
           this.stage.insert(new Q[className](Q.tilePos(x,y)));
@@ -252,13 +253,12 @@ Q.TileLayer.extend("TowerManMap",{
       }
     }
   }
-
 });
 ```
 
-When setup is called on the TowerManMap it loops over each of the tiles and replaces any 0 tiles with Dot Sprites and any 2 tiles withs Tower Sprites. It then sets the corresponding tiles to 0 so no tile shows up there.
+When setup is called on the `TowerManMap` it loops over each of the tiles and replaces any 0 tiles with Dot Sprites and any 2 tiles withs Tower Sprites. It then sets the corresponding tile values to 0 so no tile shows up there.
 
-To see this in action, replace the scene and load calls at the bottom of the file with the code below, which adds in the TowerManMap and the `Q.sheet` call to setup the tile map.
+To see this in action, replace the scene and load calls at the bottom of the file with the code below, which adds in the `TowerManMap` and the `Q.sheet` call to setup the tile map.
 
 ```javascript
 Q.scene("level1",function(stage) {
@@ -284,13 +284,13 @@ If everything goes according to plan, you should have a static level filled with
 Step 5: Adding in controls
 ==================
 
-At first glance it seems like adding in some player controls should be a snap - but the original controls for PacMan were actually a little more subtle than you might think.
+At first glance it seems like adding in some player controls should be a snap - but the original controls for Pac Man were actually a little more subtle than you might think.
 
 You can play a version of [PacMan Google Doodle](http://www.google.com/doodles/30th-anniversary-of-pac-man) if you need to remind yourself.
 
-PacMan generally keeps moving in whatever direction he's facing until he hits a wall. Let's say you're moving up - if you try to go right before it's time, he'll keep moving up until there's a gap he can go through, however if there's no gap he'll just sit in the corner.
+PacMan generally keeps moving in whatever direction he's facing until he hits a wall. But let's say you're moving up - if you try to go right before it's time, he'll keep moving up until there's a gap he can go through, however if there's no gap he'll just sit in the corner.
 
-To translate this to programmatic terms, we need to keep track of the direction we're going and the direction we'd like to go. While this might seem complicated, there's actually a pretty simple implementation of this: we just use vx and vy to keep track of the direction we're going and a separate `p.direction` property to keep track of the direction we'd like to go.
+To translate this to programmatic terms, we need to keep track of the direction we're going and the direction we'd like to go. While this might seem complicated, there's actually a pretty simple implementation of this: we just use `p.vx` and `p.vy` to keep track of the direction we're going and a separate `p.direction` property to keep track of the direction we'd like to go.
 
 Since Quintus will automatically remove any velocity in a direction where there's a collision, we just need to keep adding velocity in the direction we'd like to go until we actually can go that way.
 
@@ -350,7 +350,7 @@ Q.component("towerManControls", {
 ```
 
 
-Next let's update the `Q.Player` class to use the component and set a `p.type` and `p.collisionMask` so that the player collides with the walls and dots.
+Next let's update the `Q.Player` class to use the component and set a `p.type` and `p.collisionMask` so that the player collides with the walls, dots and eventual enemies.
 
 ```javascript
 Q.Sprite.extend("Player", {
@@ -370,7 +370,7 @@ Q.Sprite.extend("Player", {
 });
 ```
 
-If you fire up game now you should have a tower man that can pick up dots and towers.
+If you fire up the game now you should have a tower man that can pick up dots and towers.
 
 <div class='example-loader fixed' data-src='/tower_man/index3.html'></div>
 
@@ -379,7 +379,7 @@ Step 6: Adding in enemies
 
 While we want everyone to feel like a winner, a game without enemies isn't a whole lot of fun. Let's add a few bad folks to make it a little more exciting.
 
-Once again we're going to separate out the movement logic for the enemy from the enemy itself. The code for the enemy movement logic has a lot of parallels to the logic for the player, except that the enemies move randomly, not based on the whims of the inputs.
+Once again we're going to separate out the movement logic for the enemy from the enemy itself. The code for the enemy movement logic has a lot of parallels to the logic for the player, except that the enemies move randomly, not based on the whims of the user.
 
 The basic logic has two parts. The first part randomly changes the direction of the enemy - picking a direction 90 degrees away from the current direction of motion a small percentage of the time. The second part tries to turn the enemy whenever there's a collision and the enemy isn't moving (which means the enemy has gotten stuck in on a wall)
 
@@ -401,10 +401,12 @@ Q.component("enemyControls", {
   step: function(dt) {
     var p = this.entity.p;
 
+    // Randomly try to switch directions
     if(Math.random() < p.switchPercent / 100) {
       this.tryDirection();
     }
 
+    // Add velocity in the direction we are currently heading.
     switch(p.direction) {
       case "left": p.vx = -p.speed; break;
       case "right":p.vx = p.speed; break;
@@ -413,6 +415,8 @@ Q.component("enemyControls", {
     }
   },
 
+  // Try a random direction 90 degrees away from the 
+  // current direction of movement
   tryDirection: function() {
     var p = this.entity.p; 
     var from = p.direction;
@@ -423,6 +427,8 @@ Q.component("enemyControls", {
     }
   },
 
+  // Called every collision, if we're stuck,
+  // try moving in a direction 90 away from the normal
   changeDirection: function(collision) {
     var p = this.entity.p;
     if(p.vx == 0 && p.vy == 0) {
@@ -436,7 +442,7 @@ Q.component("enemyControls", {
 });
 ```
 
-Next we need the code for the enemy itself - this is nothing but a simple sprite with the `enemyControls` component and a `hit.sprite` event listener that checks if it's the player who's been hit and if so, restarts the game.
+Next we need the code for the enemy itself - this is nothing but a simple sprite with the `enemyControls` component and a `hit.sprite` event listener that checks if it's the player who's been hit. If it is the player, restart the game.
 
 
 ```javascript
@@ -461,7 +467,7 @@ Q.Sprite.extend("Enemy", {
 });
 ```
 
-Finally in order to actually add some enemies in - we'll need to add some enemies onto the stage in the `level1` scene. Add the three lines shown below into the scene method to round out the basic functionality: 
+Finally in order to actually add enemies into the game - we'll need to add some enemies onto the stage in the `level1` scene. Add the three lines shown below into the scene method to round out the basic functionality: 
 
 ```javascript
 Q.scene("level1",function(stage) {
@@ -470,7 +476,7 @@ Q.scene("level1",function(stage) {
 
   stage.insert(new Q.Player(Q.tilePos(10,7)));
 
-  // Add in some enemies
+  // Add in some enemies with the lines below
   stage.insert(new Q.Enemy(Q.tilePos(10,4)));
   stage.insert(new Q.Enemy(Q.tilePos(15,10)));
   stage.insert(new Q.Enemy(Q.tilePos(5,10)));
@@ -481,12 +487,14 @@ You can see the final game below:
 
 <div class='example-loader fixed' data-src='/tower_man/index4.html'></div>
 
-And your done....or not!
-========================
+And your done....or not
+=======================
 
-The basic functionality for a simple pac-man like game is now complete - but the game itself is far from done.
+The basic functionality for a simple Pac Man-like game is now complete - but the game itself is far from done.
 
-It still needs multiple levels, scoring, and towers that turn enemies. If you want to add these in, you can fork the tutorial on Mod.it.
+It still needs multiple levels, scoring, and towers that turn enemies to let tower man gobble them up.
+
+Now's your turn to add these - you can [fork the code base above on Mod.it](https://mod.it/ufciftb5/dev)
 
 If you want to help the Quintus community you can also help by fixing any typos in the above tutorial or forking the repo and extending this tutorial to add in any of the above-mentioned features.
 
