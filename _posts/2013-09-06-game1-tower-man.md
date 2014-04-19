@@ -18,7 +18,7 @@ Other top down action games include games like Bomberman and shooters like Ikari
 
 Our clone, Tower Man, will be different than Pac Man in a number of ways, but the main gameplay experience will be pretty similar.
 
-As this is the first game in the set, it'll also be the simpliest from a graphics and animation perspective - we're going to use a minimal sprite sheet, and no animation. 
+As this is the first game in the set, it'll also be the simplest from a graphics and animation perspective - we're going to use a minimal sprite sheet, and no animation. 
 
 The sprite sheet for Tower Man consists of 4 sprites: the player, the enemy, the dots and the towers. The goal of the game is to get all four towers and all the dots. I don't know what the dots represent in the game's universe, but let's just go with it.
 
@@ -99,7 +99,7 @@ Plop those suckers in a directory along with the contents of [tower\_man\_assets
 
 <div class='example-loader fixed' data-src='/tower_man/index1.html'></div>
 
-**Note:** generally all the examples need to be run from a server (http://) not a file (file://) url. The reason for this is that data assets are JSON files that are loaded Ajax, and browsers have sercurity restrictions when running from file:// urls (imagine you loaded an HTML file you downloaded and it immediately started uploading your whole computer to some hackers website? not ideal, hence the restriction.) 
+**Note:** generally all the examples need to be run from a server (http://) not a file (file://) url. The reason for this is that data assets are JSON files that are loaded Ajax, and browsers have security restrictions when running from file:// urls (imagine you loaded an HTML file you downloaded and it immediately started uploading your whole computer to some hackers website? not ideal, hence the restriction.) 
 
 What's going on here? Well, we've got a single sprite added into the game that has its sprite sheet set to "player". The sprite will use this to determine its size (32x32) and the sprite to display.
 
@@ -143,7 +143,7 @@ var SPRITE_ENEMY = 4;
 var SPRITE_DOT = 8;
 ```
 
-Quintus ships with a number of constants in `Quintus.Sprites` but oftentimes in your own games it's better to define a set of constants that make sense for your game. These are used to generate bitmasks which control what other types of sprites a sprite collides with.
+Quintus ships with a number of constants in `Quintus.Sprites` but often in your own games it's better to define a set of constants that make sense for your game. These are used to generate bitmasks which control what other types of sprites a sprite collides with.
 
 In the case of the player - it'll collide with `SPRITE_TILES | SPRITE_ENEMY | SPRITE_DOT` while the enemies will only collide with `SPRITE_TILES | SPRITE_PLAYER`
 
@@ -191,7 +191,7 @@ Q.Sprite.extend("Dot", {
   // When a dot is inserted, use it's parent (the stage)
   // to keep track of the total number of dots on the stage
   inserted: function() {
-    this.stage.dotCount = this.stage.dotCount || 0
+    this.stage.dotCount = this.stage.dotCount || 0;
     this.stage.dotCount++;
   }
 });
@@ -208,7 +208,7 @@ Q.Dot.extend("Tower", {
 });
 ```
 
-Next we need the actual level class - we'll call this `Q.TowerManMap` and it'll be a basic tile layer with a customer `setup()` function.
+Next we need the actual level class - we'll call this `Q.TowerManMap` and it'll be a basic tile layer with a custom `setup()` function.
 
 This setup function will create a copy of the tile data passed in and then modify it to add in towers and dots where appropriate, changing those tiles to be empty.
 
@@ -226,8 +226,8 @@ Q.tilePos = function(col,row) {
 
 
 Q.TileLayer.extend("TowerManMap",{
-  init: function() {
-    this._super({
+  init: function(p) {
+    this._super(p,{
       type: SPRITE_TILES,
       dataAsset: 'level.json',
       sheet:     'tiles',
@@ -428,7 +428,7 @@ Q.component("enemyControls", {
   },
 
   // Called every collision, if we're stuck,
-  // try moving in a direction 90 away from the normal
+  // try moving in a direction 90 degrees away from the normal
   changeDirection: function(collision) {
     var p = this.entity.p;
     if(p.vx == 0 && p.vy == 0) {
@@ -487,7 +487,7 @@ You can see the final game below:
 
 <div class='example-loader fixed' data-src='/tower_man/index4.html'></div>
 
-And your done....or not
+And you're done....or not
 =======================
 
 The basic functionality for a simple Pac Man-like game is now complete - but the game itself is far from done.

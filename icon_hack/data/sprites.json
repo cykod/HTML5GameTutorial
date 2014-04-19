@@ -1,1 +1,2 @@
-{"player":{"sx":0,"sy":0,"cols":1,"tilew":30,"tileh":30,"frames":1},"enemy":{"sx":0,"sy":30,"cols":1,"tilew":30,"tileh":30,"frames":1},"tower":{"sx":0,"sy":60,"cols":1,"tilew":30,"tileh":30,"frames":1},"dot":{"sx":0, "sy":90, "cols":1, "tilew":30, "tileh":30 }}
+{"player":{"sx":0,"sy":0,"cols":6,"tilew":64,"tileh":64,"frames":45, "w": 320, "h": 576},
+ "enemy": {"sx":0,"sy":576,"cols":4,"tilew":96,"tileh":96,"frames":36, "w": 384, "h": 864}}

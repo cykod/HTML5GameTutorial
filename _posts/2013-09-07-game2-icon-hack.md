@@ -21,9 +21,10 @@ To start with, we'll use the Tower Man game from the last tutorial as a base, on
 
 We can remove all the control code, as that'll be different in this game, and just use the stock `stepControls` for the player to move around. We'll do the same thing for the enemy sprite, removing the control component and the hit callback.
 
-We'll also make a few changes to the TileLayer class, now called `HackMap`. The first change is that we'll be loading a TMX file called `countryside.tmx` instead of a hand-created level.json file. TMX files are created with the open-source [Tiled Map Editor](http://www.mapeditor.org/) and it sure beats creating JSON arrays by hand. The second change to `HackMap` is overriding the collidableTile 
+We'll also make a few changes to the TileLayer class, now called `HackMap`. The first change is that we'll be loading a TMX file called `countryside.tmx` instead of a hand-created level.json file. TMX files are created with the open-source [Tiled Map Editor](http://www.mapeditor.org/) and it sure beats creating JSON arrays by hand. 
 
-Other than changing some constants, alternating the name of the tile map class and the name of the level to countryside, the starter code is just pared-down version of the Tower Man game.
+The second change to `HackMap` is overriding the `collidableTile` method. By default any tile that isn't 0 counts as a tile that causes a collision, but for this game, we want to be able to use additional tiles for the background that the player can walk over. `collidableTile`'s job is to return true when a specific tile number should cause a collision. In this case we want stone and water tiles (1 and 2) to cause collisions and the rest not to.
+
 
 ```javascript
 window.addEventListener("load",function() {
@@ -51,7 +52,7 @@ window.addEventListener("load",function() {
         collisionMask: SPRITE_TILES | SPRITE_ENEMY
       });
 
-      this.add("2d, stepControls");
+      this.add("2d, topdownControls");
     }
   });
 
@@ -61,13 +62,17 @@ window.addEventListener("load",function() {
 
 
   Q.TileLayer.extend("HackMap",{
-    init: function() {
-      this._super({
+    init: function(p) {
+      this._super(p,{
         type: SPRITE_TILES,
-        dataAsset: 'level.json',
         sheet:     'tiles',
       });
+    },
+
+    collidableTile: function(tileNum) {
+      return tileNum == 1 || tileNum == 4;
     }
+
   });
 
 
@@ -85,7 +90,7 @@ window.addEventListener("load",function() {
   });
 
   Q.scene("countryside",function(stage) {
-    var map = stage.collisionLayer(new Q.HackMap());
+    var map = stage.collisionLayer(new Q.HackMap({ dataAsset: 'level.json' }));
 
     stage.insert(new Q.Player(Q.tilePos(1,1)));
 
@@ -105,17 +110,19 @@ window.addEventListener("load",function() {
 });
 ```
 
-Add this code to a new project directory in a new `icon_hack.js` file and create the equivalent index.html referencing this .js file.
+Add this code to a new project directory in a new `icon_hack.js` file and create the equivalent index.html referencing this .js file (otherwise the `index.html` file should match the one for Tower Man).
 
-You'll need a new set of image and data assets you can [download](tester.zip)
+You'll need a new set of image and data assets you can [download](tester.zip) The sprite assets are taken from Mozilla's fantastic [BrowserQuest](https://github.com/mozilla/BrowserQuest) project
 
-Before running the code, however, we'll need to make on change to the `HackMap` class to adjust what counts as a collideable tile.
+If you have everything in place, your game should now look something like below:
 
+<div class='example-loader fixed' data-src='/icon_hack/index1.html'></div>
 
+Fixing our offset problem
+=========================
 
+Right now we've got a little bit of a bounding box and an offset problem. Our sprites are wandering around and colliding with each other and the tiles, but the size of the sprites means there's a lot of white space around each sprite. Secondly the sprites aren't a top  
 
-
-<div class='example-loader fixed' data-src='/tower_man/index4.html'></div>
 
 And your done....or not
 =======================
