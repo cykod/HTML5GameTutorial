@@ -142,11 +142,12 @@
 
       Q.TileLayer.extend("TowerManMap",{
         init: function(p) {
-          this._super(p,{
+          p = p || {};
+          this._super(Q._defaults(p,{
             type: SPRITE_TILES,
             dataAsset: 'level.json',
             sheet:     'tiles',
-          });
+          }));
 
         },
         
