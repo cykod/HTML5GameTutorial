@@ -141,8 +141,8 @@
       }
 
       Q.TileLayer.extend("TowerManMap",{
-        init: function(p) {
-          this._super(p,{
+        init: function() {
+          this._super({
             type: SPRITE_TILES,
             dataAsset: 'level.json',
             sheet:     'tiles',
