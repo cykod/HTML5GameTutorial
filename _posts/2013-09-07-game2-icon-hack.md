@@ -62,8 +62,8 @@ window.addEventListener("load",function() {
 
 
   Q.TileLayer.extend("HackMap",{
-    init: function(p) {
-      this._super(p,{
+    init: function() {
+      this._super({
         type: SPRITE_TILES,
         sheet:     'tiles',
       });
